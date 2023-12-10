@@ -17,7 +17,7 @@ function keepTrying(a,b){
     }catch(e){
         if(e instanceof MultiplicatorUnitFailure){
             console.log(e.message);
-            keepTrying();
+            keepTrying(a, b);
         }
     }
 }
