@@ -1,0 +1,62 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Table Excercise</title>
+</head>
+<body>
+    <h1>Mountains</h1>
+    <div id="mountains"></div>
+    <script>
+        const MOUNTAINS = [
+            {name: "Kilimanjaro", height: 5895, place: "Tanzania"},
+            {name: "Everest", height: 8848, place: "Nepal"},
+            {name: "Mount Fuji", height: 3776, place: "Japan"},
+            {name: "Vaalserberg", height: 323, place: "Netherlands"},
+            {name: "Denali", height: 6168, place: "United States"},
+            {name: "Popocatepetl", height: 5465, place: "Mexico"},
+            {name: "Mont Blanc", height: 4808, place: "Italy/France"}
+        ];
+
+        const mountainRoot = document.getElementById("mountains");
+        
+        function createTable(){
+            const tableElement = document.createElement("table");
+            const headers = Object.keys(MOUNTAINS[0]);
+
+            function createTableHeader(headers, tableElement){
+                const headerRow = document.createElement("tr");
+                for(const header of headers){
+                    const col = document.createElement("td");
+                    col.textContent = header;
+                    headerRow.appendChild(col);
+                }
+                tableElement.appendChild(headerRow);
+            }
+
+            function createTableRows(data, tableElement){
+                for(const dataRow of data){
+                    const row = document.createElement("tr");
+                    for(const colName of Object.keys(dataRow)){
+                        const value = dataRow[colName];
+                        const col = document.createElement("td");
+                        col.textContent = value;
+                        if(typeof value == "number"){
+                            col.style.textAlign = "right";
+                        }
+                        row.appendChild(col);
+                    }
+                    tableElement.appendChild(row);
+                }                
+            }
+            
+            createTableHeader(headers, tableElement);
+            createTableRows(MOUNTAINS, tableElement);
+            return tableElement;
+        }
+
+        mountainRoot.appendChild(createTable());
+    </script>
+</body>
+</html>
