@@ -1,0 +1,172 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+
+    <style>
+        .dot{
+            height: 8px;
+            width: 8px;
+            border-radius: 4px;
+            background: blue;
+            position: absolute;
+        }
+
+        #progress {
+            border-bottom: 2px solid blue;
+            width: 0;
+            position: fixed;
+            top: 0;
+            left: 0;
+        }
+    </style>
+</head>
+<body>
+    <button>Click me with different mouse buttons</button>
+
+    <p>
+        A para with a <button>button</button>.
+    </p>
+
+    <a href="www.google.com">Googler</a>
+
+    <p>Page will turn violet on click of v</p>
+
+    <p>Press CTRL+Space to Continue</p>
+
+    <p>Drag the bar to change its width: </p>
+    <div style="background: orange; width: 60px; height: 20px;"></div>
+
+    <input type="text" name="name" data-help="Your name">
+    <input type="number" name="age" data-help="Your age">
+
+    <div id="progress"></div>
+
+    <div id="help"></div>
+
+    <textarea>Type something here...</textarea>
+    <script>
+        let button = document.querySelector("button");
+        button.addEventListener("mousedown", event => {
+            const buttonNumber = event.button;
+            console.log(event.type);
+
+            if(buttonNumber == 0){
+                console.log("Left");
+            }else if(buttonNumber == 1){
+                console.log("Middle");
+            }else if(buttonNumber == 2){
+                console.log("Right");
+            }
+        })
+
+        let para = document.querySelector("p");
+        let button2 = document.querySelectorAll("button")[1];
+
+        para.addEventListener("mousedown", event => {
+            console.log("Handler para");
+            console.log(event.target.nodeName)
+        });
+
+        button2.addEventListener("mousedown", event => {
+            console.log("Handler button");
+            if(event.button == 2){
+                event.stopPropagation();
+            }
+        })
+
+        const link = document.querySelector("a");
+        link.addEventListener("click", event => {
+            console.log("dont join google");
+            event.preventDefault();
+        })
+
+        window.addEventListener("keydown", event => {
+            if(event.key == "v"){
+                document.body.style.background = "violet";
+            }
+
+            if(event.key == " " && event.ctrlKey){
+                console.log("Continuing");
+            }
+        })
+
+        window.addEventListener("keyup", event => {
+            if(event.key == "v"){
+                document.body.style.background = "";
+            }
+        })
+
+        window.addEventListener("click", event => {
+            let dot = document.createElement("div");
+            dot.className = "dot";
+            dot.style.left = (event.pageX - 4) + "px";
+            dot.style.top = (event.pageY - 4) + "px";
+            document.body.appendChild(dot);
+        })
+
+        let lastX;
+        let bar = document.querySelector("div");
+
+        bar.addEventListener("mousedown", event=>{
+            if(event.button == 0){
+                lastX = event.clientX;
+                window.addEventListener("mousemove", moved);
+                event.preventDefault();
+            }
+        })
+
+        function moved(event){
+            if(event.buttons == 0){
+                window.removeEventListener("mousemove", moved);
+            }else{
+                let dist = event.clientX - lastX;
+                let newWidth = Math.max(10, bar.offsetWidth + dist);
+                bar.style.width = newWidth + "px";
+                lastX = event.clientX;
+            }
+        }
+
+        document.body.appendChild(document.createTextNode("supercalifragilistceexpialidocious".repeat(1000)));
+
+        let progressbar = document.querySelector("#progress");
+        window.addEventListener("scroll", () => {
+            let max = document.body.scrollWidth - innerWidth;
+            console.log(pageXOffset);
+            console.log(max);
+            progressbar.style.width = `${(pageXOffset / max) * 100}%`
+        })
+
+        let help = document.querySelector("#help");
+        let fields = document.querySelectorAll("input");
+        for(let field of Array.from(fields)){
+            field.addEventListener("focus", event => {
+                let text = event.target.getAttribute("data-help");
+                help.textContent = text;
+            })
+
+            field.addEventListener("blur", event => {
+                help.textContent = "";
+            })
+        }
+
+        // let sqrWorker = new Worker("./squareworker.js");
+        // sqrWorker.addEventListener("message", event => {
+        //     console.log("The worker responded: " + event.data);
+        // })
+
+        // sqrWorker.postMessage(10);
+        // sqrWorker.postMessage(24);
+
+        let textarea = document.querySelector("textarea");
+        let timeout;
+
+        textarea.addEventListener("input", () => {
+            clearTimeout(timeout);
+            timeout = setTimeout(() => console.log("typed!"), 500);
+        });
+    </script>
+</body>
+</html>
