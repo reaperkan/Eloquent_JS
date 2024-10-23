@@ -1,0 +1,68 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>3</title>
+</head>
+<body>
+    <canvas width="600" height="600"></canvas>
+
+    <script>
+        const results = [
+            {name: "Satisfied", count: 1043, color: "lightblue"},
+            {name: "Neutral", count: 563, color: "lightgreen"},
+            {name: "Unsatisfied", count: 510, color: "pink"},
+            {name: "No comment", count: 175, color: "silver"}
+        ]
+
+        let canvas = document.querySelector("canvas");
+        let ctx = canvas.getContext("2d");
+
+        let total = results.reduce((sum, {count}) => sum+count, 0);
+        let currentAngle = -0.5 * Math.PI;
+
+        for(let result of results){
+            let sliceAngle = (result.count / total) * 2 * Math.PI;
+            ctx.beginPath();
+            // center = 100,100
+            // radius = 100
+            ctx.arc(100,100, 100, currentAngle, currentAngle + sliceAngle);
+            currentAngle+=sliceAngle;
+            ctx.lineTo(100,100);
+            ctx.fillStyle = result.color;
+            ctx.fill();
+        }
+
+        ctx.font = "28px Georgia";
+        ctx.fillStyle = "fuchsia";
+        ctx.fillText("I can draw text too!", 50, 250);
+
+        let img = document.createElement("img");
+        img.src = "img/player.png";
+        let spriteW = 24;
+        let spriteH = 30;
+        img.addEventListener("load", () => {
+            let cycle = 0;
+            setInterval(()=>{
+                ctx.clearRect(0, 0, spriteW, spriteH);
+                //flipHorizontally(ctx, 100 + spriteW/2);
+                ctx.drawImage(img, cycle * spriteW, 0, spriteW, spriteH,0,0, spriteW, spriteH);
+                cycle = (cycle + 1) % 8;
+            }, 120);
+        })
+
+        ctx.scale(3, .5);
+        ctx.beginPath();
+        ctx.arc(50,50,40,0,7);
+        ctx.lineWidth = 3;
+        ctx.stroke();
+
+        function flipHorizontally(ctx, around){
+            ctx.translate(around, 0);
+            ctx.scale(-1, 1);
+            ctx.translate(-around, 0);
+        }
+    </script>
+</body>
+</html>
