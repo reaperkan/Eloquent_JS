@@ -1,0 +1,15 @@
+{
+  "name": "chapter_20",
+  "version": "1.0.0",
+  "description": "",
+  "main": "chapter_works.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "start": "node file_server.js"
+  },
+  "author": "",
+  "license": "ISC",
+  "dependencies": {
+    "mime": "2.2.0"
+  }
+}

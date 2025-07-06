@@ -1,0 +1,22 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+<script>
+    const formats = ['text/plain', 'text/html', 'application/json'];
+
+    for(const format of formats){
+        fetch('https://eloquentjavascript.net/author', {headers: {
+            'accept': format
+        }})
+            .then((data) => data.text())
+            .then((data) => console.log(data));
+    }
+</script>
+</body>
+</html>

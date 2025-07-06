@@ -1,0 +1,28 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    <textarea id="codeField"></textarea>
+    <button type="submit" onclick="runCode()">Submit</button>
+    <p id="resultsField"></p>
+    <script>
+        function runCode(){
+            const textArea = document.getElementById("codeField");
+            const code = textArea.value.trim();
+            const runCode = Function("", code);
+            const resultsPara = document.getElementById('resultsField');
+            try{
+                const returnValue = runCode();
+                resultsPara.innerText = returnValue ?? "";
+            }catch(error){
+                resultsPara.innerText = error.message;
+            }
+        }
+        
+    </script>
+</body>
+</html>

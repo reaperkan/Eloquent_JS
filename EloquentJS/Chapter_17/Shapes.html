@@ -1,0 +1,49 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Document</title>
+</head>
+<body>
+    
+    <canvas width="600" height="900"></canvas>
+    <script>
+        const canvas = document.querySelector('canvas');
+        const ctx = canvas.getContext("2d");
+
+        function createTrapezoid(x, y){
+            ctx.beginPath();
+            ctx.moveTo(x, y);
+            ctx.lineTo(x + 50, y);
+            ctx.lineTo(x + 70, y + 50);
+            ctx.lineTo(x - 20, y + 50);
+            ctx.closePath();
+            ctx.stroke();
+        }
+        createTrapezoid (20, 10);
+
+        function createRedDiamond(x, y){
+            ctx.translate(x + 30, y + 30);
+            ctx.rotate(Math.PI / 4);
+            ctx.fillStyle = 'red';
+            ctx.fillRect(-30, -30, 50, 50);
+            ctx.resetTransform();
+        }
+        createRedDiamond(10, 80);
+
+        function zigzag(x, y, numberOfLines){
+            ctx.beginPath();
+            ctx.moveTo(x,y);
+            for(let i = 0; i < numberOfLines/2; i++){
+                ctx.lineTo(x + 80, y + i * 8 + 4);
+                ctx.lineTo(x, y + i * 8 + 8);
+            }
+            ctx.stroke();
+        }
+        zigzag(10, 200, 10)
+
+        
+    </script>
+</body>
+</html>
